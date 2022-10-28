@@ -1,8 +1,11 @@
 import type { NextPage } from 'next'
+import { useEffect } from 'react'
 import Head from 'next/head'
 import Image from 'next/image'
 import HomeButton from '../components/HomeButton'
 import HeaderButton from '../components/HeaderButton'
+import { createClient } from '@supabase/supabase-js'
+
 const styles = {
   hover: {
     backgroundColor: 'red',
@@ -12,7 +15,10 @@ const styles = {
   },
 }
 
-const Home: NextPage = () => {
+const Home: NextPage = ({comisarias}) => {
+  useEffect(() => {
+    console.log(comisarias)
+  }, [])
   return (
     <div className="bg-black text-white h-screen">
       <Head>
@@ -48,6 +54,20 @@ v
       </footer>
     </div>
   )
+}
+
+
+export const getServerSideProps = async () => {
+  const supabase = createClient( process.env.NEXT_PUBLIC_SUPABASE_URL?? '',  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?? '')
+  const { data: comisarias, error } = await supabase.from('comisarias').select('*')
+  console.log(comisarias, error)
+  return {
+    props: {
+      // props for your component
+      comisarias,
+      error
+    },
+  }
 }
 
 export default Home
