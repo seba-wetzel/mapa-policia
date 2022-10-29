@@ -1,4 +1,4 @@
-import type { NextPage } from 'next'
+import type { NextPage, GetServerSideProps, InferGetServerSidePropsType   } from 'next'
 import { useEffect } from 'react'
 import Head from 'next/head'
 import Image from 'next/image'
@@ -15,7 +15,7 @@ const styles = {
   },
 }
 
-const Home: NextPage = ({comisarias}) => {
+const Home: NextPage = ({comisarias}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   useEffect(() => {
     console.log(comisarias)
   }, [])
@@ -56,11 +56,20 @@ v
   )
 }
 
+// type Data = {
+//   comisarias: Array<{
+//     id: number,
+//     numero: number | null,
+//     distrito: string | null,
+//     ubicacion: object | null,
+//  }>,
+//  error: string | null | unknown,
+// }
 
-export const getServerSideProps = async () => {
+
+export const getServerSideProps : GetServerSideProps  = async () => {
   const supabase = createClient( process.env.NEXT_PUBLIC_SUPABASE_URL?? '',  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?? '')
   const { data: comisarias, error } = await supabase.from('comisarias').select('*')
-  console.log(comisarias, error)
   return {
     props: {
       // props for your component
