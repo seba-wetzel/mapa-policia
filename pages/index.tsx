@@ -3,6 +3,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import HomeButton from '../components/HomeButton'
 import HeaderButton from '../components/HeaderButton'
+import {Map} from "map-lib" 
 const styles = {
   hover: {
     backgroundColor: 'red',
@@ -29,13 +30,24 @@ derechos humanos de todas las personas que habitan o visitan la Ciudad de Buenos
         <HeaderButton image={{src:"/img/megafono-header.webp"}} alt="DENUNCIÁ" active={true} goTo="/mapa" text="DENUNCIÁ" hoverText="DENUNCIÁ"/>
         <HeaderButton image={{src:"/img/herramientas-header.webp"}} alt="RECURSOS" active={false} goTo="/mapa" text="RECURSOS" hoverText="RECURSOS"/>
         <HeaderButton image={{src:"/img/investigaciones-header.webp", w:81, h:95}} alt="INVESTIGACIONES" active={false} goTo="/mapa" text="INVESTIGACIONES" hoverText="INVESTIGACIONES"/>
-        <HeaderButton alt="INVESTIGACIONES" active={false} goTo="/mapa" text="NOSOTRXS" hoverText="INVESTIGACIONES"/>
+        <HeaderButton alt="NOSOTXS" active={false} goTo="/mapa" text="NOSOTRXS" hoverText="Quienes"/>
         </div>
       </header>
 
       <main >
-<div className='h-96  bg-repeat-y	 bg-grid opacity-20'>
-v
+<div className='min-h-full  bg-repeat-y	 bg-grid opacity-20 flex flex-col items-center'>
+  {typeof Map !== "undefined" && 
+<Map 
+className=' z-10'
+        jurisdiccionesURL={"/geo/caba/comunas.topo"}
+        barriosURL={"/geo/caba/barrios.topo"}
+        campos={{
+          jurisdiccion: "COMUNA",
+          interseccion: "COMUNAS",
+          barrio: "BARRIO",
+        }}
+        onClick={(e) => console.log(e ?? "no properties")}
+      />  }
 
 </div>
 
