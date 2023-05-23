@@ -4,8 +4,6 @@ import Head from 'next/head'
 import Image from 'next/image'
 import HomeButton from '../components/HomeButton'
 import HeaderButton from '../components/HeaderButton'
-import {Map} from "map-lib" 
-import { createClient } from '@supabase/supabase-js'
 
 const styles = {
   hover: {
@@ -42,19 +40,6 @@ derechos humanos de todas las personas que habitan o visitan la Ciudad de Buenos
 
       <main >
 <div className='min-h-full  bg-repeat-y	 bg-grid opacity-20 flex flex-col items-center'>
-  {typeof Map !== "undefined" && 
-<Map 
-className=' z-10'
-        jurisdiccionesURL={"/geo/caba/comunas.topo"}
-        barriosURL={"/geo/caba/barrios.topo"}
-        campos={{
-          jurisdiccion: "COMUNA",
-          interseccion: "COMUNAS",
-          barrio: "BARRIO",
-        }}
-        onClick={(e) => console.log(e ?? "no properties")}
-      />  }
-
 </div>
 
 
@@ -80,13 +65,11 @@ className=' z-10'
 
 
 export const getServerSideProps : GetServerSideProps  = async () => {
-  const supabase = createClient( process.env.NEXT_PUBLIC_SUPABASE_URL?? '',  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?? '')
-  const { data: comisarias, error } = await supabase.from('comisarias').select('*')
   return {
     props: {
       // props for your component
-      comisarias,
-      error
+      comisarias: {},
+      error: {}
     },
   }
 }
