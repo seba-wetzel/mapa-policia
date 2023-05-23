@@ -1,0 +1,579 @@
+backend:
+  name: test-repo
+  branch: main
+media_folder: public/img
+public_folder: img
+collections:
+  - name: pages
+    label: Pages
+    files:
+      - label: Home
+        name: home
+        file: content/home.md
+        fields:
+          - label: Title
+            name: title
+            widget: string
+          - label: Comisarias
+            name: geojson
+            widget: geojson
+            draw: marker
+            single: false
+            lat: 0
+            lng: 0
+            zoom: 1
+            dataURLs:
+              - ./data/comunas.topo
+          - label: Barrio
+            name: barrio
+            widget: graph
+            single: false
+            dataURLs:
+              - ./data/comunas.topo
+  - name: autor
+    label: Autor
+    folder: ./data/Autor
+    slug: "{{id}}.json"
+    create: true
+    widget: object
+    fields:
+      - name: id
+        label: Autor id
+        required: true
+        widget: string
+      - name: nombre
+        label: Autor nombre
+        required: true
+        widget: string
+      - name: datos
+        label: Autor datos
+        required: true
+        widget: object
+      - name: imagen
+        label: Autor imagen
+        required: false
+        widget: list
+  - name: cargo
+    label: Cargo
+    folder: ./data/Cargo
+    slug: "{{id}}.json"
+    create: true
+    widget: object
+    fields:
+      - name: id
+        label: Cargo id
+        required: true
+        widget: string
+      - name: nombre
+        label: Cargo nombre
+        required: true
+        widget: string
+      - name: descripcion
+        label: Cargo descripcion
+        required: true
+        widget: string
+      - name: tipo
+        label: Cargo tipo
+        required: true
+        widget: string
+      - name: responsabilidades
+        label: Cargo responsabilidades
+        required: true
+        widget: string
+      - name: autoridad_superior
+        label: Cargo autoridad_superior
+        required: true
+        widget: string
+      - name: subordinados
+        label: Cargo subordinados
+        required: true
+        widget: string
+  - name: caso
+    label: Caso
+    folder: ./data/Caso
+    slug: "{{id}}.json"
+    create: true
+    widget: object
+    fields:
+      - name: id
+        label: Caso id
+        required: true
+        widget: string
+      - name: ubicacion
+        label: Caso ubicacion
+        required: true
+        widget: string
+      - name: tipo_de_caso
+        label: Caso tipo_de_caso
+        required: true
+        widget: string
+      - name: descripcion
+        label: Caso descripcion
+        required: true
+        widget: string
+      - name: victima
+        label: Caso victima
+        required: true
+        widget: object
+        fields: []
+      - name: informacion
+        label: Caso informacion
+        required: true
+        widget: string
+      - name: fecha
+        label: Caso fecha
+        required: true
+        widget: string
+  - name: comisaria
+    label: Comisaria
+    folder: ./data/Comisaria
+    slug: "{{id}}.json"
+    create: true
+    widget: object
+    fields:
+      - name: id
+        label: Comisaria id
+        required: true
+        widget: string
+      - name: jurisdiccion
+        label: Comisaria jurisdiccion
+        required: true
+        widget: string
+      - name: contacto
+        label: Comisaria contacto
+        required: true
+        widget: string
+      - name: autoridades
+        label: Comisaria autoridades
+        required: false
+        widget: string
+      - name: nombre_anterior
+        label: Comisaria nombre_anterior
+        required: false
+        widget: string
+      - name: geo_posicion
+        label: Comisaria geo_posicion
+        required: true
+        widget: string
+      - name: descripcion
+        label: Comisaria descripcion
+        required: true
+        widget: string
+  - name: instituciones
+    label: Instituciones
+    folder: ./data/Instituciones
+    slug: "{{id}}.json"
+    create: true
+    widget: object
+    fields:
+      - name: id
+        label: Instituciones id
+        required: true
+        widget: string
+      - name: nombre
+        label: Instituciones nombre
+        required: true
+        widget: string
+      - name: descripcion
+        label: Instituciones descripcion
+        required: true
+        widget: string
+      - name: autoridad_superior
+        label: Instituciones autoridad_superior
+        required: true
+        widget: string
+      - name: subordinados
+        label: Instituciones subordinados
+        required: true
+        widget: string
+      - name: imagen
+        label: Instituciones imagen
+        required: false
+        widget: list
+  - name: investigaciones
+    label: Investigaciones
+    folder: ./data/Investigaciones
+    slug: "{{id}}.json"
+    create: true
+    widget: object
+    fields:
+      - name: id
+        label: Investigaciones id
+        required: true
+        widget: string
+      - name: titulo
+        label: Investigaciones titulo
+        required: true
+        widget: string
+      - name: texto
+        label: Investigaciones texto
+        required: true
+        widget: string
+      - name: fecha
+        label: Investigaciones fecha
+        required: true
+        widget: string
+      - name: destacados
+        label: Investigaciones destacados
+        required: true
+        widget: string
+      - name: autores
+        label: Investigaciones autores
+        required: true
+        widget: list
+      - name: imagenes
+        label: Investigaciones imagenes
+        required: true
+        widget: list
+  - name: persona
+    label: Persona
+    folder: ./data/Persona
+    slug: "{{id}}.json"
+    create: true
+    widget: object
+    fields:
+      - name: id
+        label: Persona id
+        required: true
+        widget: string
+      - name: nombre
+        label: Persona nombre
+        required: true
+        widget: string
+      - name: fecha_nacimiento
+        label: Persona fecha_nacimiento
+        required: false
+        widget: string
+      - name: fecha_inicio
+        label: Persona fecha_inicio
+        required: false
+        widget: string
+      - name: cargo_anterior
+        label: Persona cargo_anterior
+        required: false
+        widget: object
+        fields: []
+      - name: causas
+        label: Persona causas
+        required: false
+        widget: string
+      - name: observaciones
+        label: Persona observaciones
+        required: true
+        widget: string
+      - name: imagen
+        label: Persona imagen
+        required: false
+        widget: list
+  - name: recursos
+    label: Recursos
+    folder: ./data/Recursos
+    slug: "{{id}}.json"
+    create: true
+    widget: object
+    fields:
+      - name: id
+        label: Recursos id
+        required: true
+        widget: string
+      - name: titulo
+        label: Recursos titulo
+        required: true
+        widget: string
+      - name: texto
+        label: Recursos texto
+        required: true
+        widget: string
+      - name: fecha
+        label: Recursos fecha
+        required: true
+        widget: string
+  - name: reportes
+    label: Reportes
+    folder: ./data/Reportes
+    slug: "{{id}}.json"
+    create: true
+    widget: object
+    fields:
+      - name: id
+        label: Reportes id
+        required: true
+        widget: string
+      - name: link
+        label: Reportes link
+        required: true
+        widget: string
+  - name: autor
+    label: Autor
+    folder: ./data/Autor
+    slug: "{{id}}.json"
+    create: true
+    widget: object
+    fields:
+      - name: id
+        label: Autor id
+        required: true
+        widget: string
+      - name: nombre
+        label: Autor nombre
+        required: true
+        widget: string
+      - name: datos
+        label: Autor datos
+        required: true
+        widget: object
+      - name: imagen
+        label: Autor imagen
+        required: false
+        widget: list
+  - name: cargo
+    label: Cargo
+    folder: ./data/Cargo
+    slug: "{{id}}.json"
+    create: true
+    widget: object
+    fields:
+      - name: id
+        label: Cargo id
+        required: true
+        widget: string
+      - name: nombre
+        label: Cargo nombre
+        required: true
+        widget: string
+      - name: descripcion
+        label: Cargo descripcion
+        required: true
+        widget: string
+      - name: tipo
+        label: Cargo tipo
+        required: true
+        widget: string
+      - name: responsabilidades
+        label: Cargo responsabilidades
+        required: true
+        widget: string
+      - name: autoridad_superior
+        label: Cargo autoridad_superior
+        required: true
+        widget: string
+      - name: subordinados
+        label: Cargo subordinados
+        required: true
+        widget: string
+  - name: caso
+    label: Caso
+    folder: ./data/Caso
+    slug: "{{id}}.json"
+    create: true
+    widget: object
+    fields:
+      - name: id
+        label: Caso id
+        required: true
+        widget: string
+      - name: ubicacion
+        label: Caso ubicacion
+        required: true
+        widget: string
+      - name: tipo_de_caso
+        label: Caso tipo_de_caso
+        required: true
+        widget: string
+      - name: descripcion
+        label: Caso descripcion
+        required: true
+        widget: string
+      - name: victima
+        label: Caso victima
+        required: true
+        widget: object
+        fields: []
+      - name: informacion
+        label: Caso informacion
+        required: true
+        widget: string
+      - name: fecha
+        label: Caso fecha
+        required: true
+        widget: string
+  - name: comisaria
+    label: Comisaria
+    folder: ./data/Comisaria
+    slug: "{{id}}.json"
+    create: true
+    widget: object
+    fields:
+      - name: id
+        label: Comisaria id
+        required: true
+        widget: string
+      - name: jurisdiccion
+        label: Comisaria jurisdiccion
+        required: true
+        widget: string
+      - name: contacto
+        label: Comisaria contacto
+        required: true
+        widget: string
+      - name: autoridades
+        label: Comisaria autoridades
+        required: false
+        widget: string
+      - name: nombre_anterior
+        label: Comisaria nombre_anterior
+        required: false
+        widget: string
+      - name: geo_posicion
+        label: Comisaria geo_posicion
+        required: true
+        widget: string
+      - name: descripcion
+        label: Comisaria descripcion
+        required: true
+        widget: string
+  - name: instituciones
+    label: Instituciones
+    folder: ./data/Instituciones
+    slug: "{{id}}.json"
+    create: true
+    widget: object
+    fields:
+      - name: id
+        label: Instituciones id
+        required: true
+        widget: string
+      - name: nombre
+        label: Instituciones nombre
+        required: true
+        widget: string
+      - name: descripcion
+        label: Instituciones descripcion
+        required: true
+        widget: string
+      - name: autoridad_superior
+        label: Instituciones autoridad_superior
+        required: true
+        widget: string
+      - name: subordinados
+        label: Instituciones subordinados
+        required: true
+        widget: string
+      - name: imagen
+        label: Instituciones imagen
+        required: false
+        widget: list
+  - name: investigaciones
+    label: Investigaciones
+    folder: ./data/Investigaciones
+    slug: "{{id}}.json"
+    create: true
+    widget: object
+    fields:
+      - name: id
+        label: Investigaciones id
+        required: true
+        widget: string
+      - name: titulo
+        label: Investigaciones titulo
+        required: true
+        widget: string
+      - name: texto
+        label: Investigaciones texto
+        required: true
+        widget: string
+      - name: fecha
+        label: Investigaciones fecha
+        required: true
+        widget: string
+      - name: destacados
+        label: Investigaciones destacados
+        required: true
+        widget: string
+      - name: autores
+        label: Investigaciones autores
+        required: true
+        widget: list
+      - name: imagenes
+        label: Investigaciones imagenes
+        required: true
+        widget: list
+  - name: persona
+    label: Persona
+    folder: ./data/Persona
+    slug: "{{id}}.json"
+    create: true
+    widget: object
+    fields:
+      - name: id
+        label: Persona id
+        required: true
+        widget: string
+      - name: nombre
+        label: Persona nombre
+        required: true
+        widget: string
+      - name: fecha_nacimiento
+        label: Persona fecha_nacimiento
+        required: false
+        widget: string
+      - name: fecha_inicio
+        label: Persona fecha_inicio
+        required: false
+        widget: string
+      - name: cargo_anterior
+        label: Persona cargo_anterior
+        required: false
+        widget: object
+        fields: []
+      - name: causas
+        label: Persona causas
+        required: false
+        widget: string
+      - name: observaciones
+        label: Persona observaciones
+        required: true
+        widget: string
+      - name: imagen
+        label: Persona imagen
+        required: false
+        widget: list
+  - name: recursos
+    label: Recursos
+    folder: ./data/Recursos
+    slug: "{{id}}.json"
+    create: true
+    widget: object
+    fields:
+      - name: id
+        label: Recursos id
+        required: true
+        widget: string
+      - name: titulo
+        label: Recursos titulo
+        required: true
+        widget: string
+      - name: texto
+        label: Recursos texto
+        required: true
+        widget: string
+      - name: fecha
+        label: Recursos fecha
+        required: true
+        widget: string
+  - name: reportes
+    label: Reportes
+    folder: ./data/Reportes
+    slug: "{{id}}.json"
+    create: true
+    widget: object
+    fields:
+      - name: id
+        label: Reportes id
+        required: true
+        widget: string
+      - name: link
+        label: Reportes link
+        required: true
+        widget: string
+
