@@ -75,10 +75,8 @@ function parsePropertySignature(ps: PropertySignature, ancestors: string[] = [])
             }
         case Typescript.SyntaxKind.TypeLiteral:
             return parseNode(ps, [...ancestors, name])
-            /*const field = parsePropertySignature(child,
-               if (field)
-               fields.push(field)
-             */
+        case Typescript.SyntaxKind.TypeReference:
+            return collections[name]
         default:
             DEBUG('unhandled type', KIND(ps.type), ps, collections)
             throw "Type Error"
@@ -123,28 +121,32 @@ function parseNode(node : Node, ancestors: string[] = []): Collection {
     }
 }
 
-const dir = process.argv.pop() || './';
+const dir : string = process.argv.pop() || './';
 const configFile = process.argv.pop() || './config.yaml';
 const config : Config = YAML.parse(fs.readFileSync(configFile).toString())
 const collections : Record<string, Collection> = {}
 for (let c of config.collections) {
-    collections[c.name] = c
+    collections[c.label] = c
 }
 
-for (let f of fs.readdirSync(dir.toString())) {
-    console.error(`reading file: ${dir}/${f}`)
-    const node = Typescript.createSourceFile(f, fs.readFileSync(path.join(dir, f), 'utf-8'), Typescript.ScriptTarget.Latest)
-    node.forEachChild(child => {
-        if (child.kind === Typescript.SyntaxKind.InterfaceDeclaration) {
-            const id = (child as InterfaceDeclaration);
-            const name = id.name.escapedText.toString();
-            collections[name] = {
-                ...parseNode(child, [name]),
-                ...(collections[name] || {})
+const readAll = (dir: string) => {
+    for (let f of fs.readdirSync(dir.toString())) {
+        DEBUG(`reading file: ${dir}/${f}`)
+        const node = Typescript.createSourceFile(f, fs.readFileSync(path.join(dir, f), 'utf-8'), Typescript.ScriptTarget.Latest)
+        node.forEachChild(child => {
+            if (child.kind === Typescript.SyntaxKind.InterfaceDeclaration) {
+                const id = (child as InterfaceDeclaration);
+                const name = id.name.escapedText.toString();
+                collections[name] = {
+                    ...parseNode(child, [name]),
+                    ...(collections[name] || {})
+                }
             }
-        }
-    })
+        })
+    }
 }
+
+readAll(dir)
 
 config.collections = Object.values(collections)
 console.log(YAML.stringify(config))
