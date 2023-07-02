@@ -9,6 +9,9 @@ import Typescript, {
 } from 'typescript';
 import YAML from 'yaml';
 
+import Debug from 'debug';
+const DEBUG = Debug('m2cms')
+
 const KIND = (e: Node | undefined ) => e && Typescript.SyntaxKind[e.kind]
 
 interface Field {
@@ -77,7 +80,8 @@ function parsePropertySignature(ps: PropertySignature, ancestors: string[] = [])
                fields.push(field)
              */
         default:
-            console.error('unhandled type', KIND(ps.type), ps)
+            DEBUG('unhandled type', KIND(ps.type), ps, collections)
+            throw "Type Error"
     }
     return null;
 }
@@ -103,11 +107,11 @@ function parseNode(node : Node, ancestors: string[] = []): Collection {
                 fields.push( parseNode(child, [...ancestors, 'literal']))
                 break;
             default:
-                console.error('ignoring', KIND(child))
+                DEBUG('ignoring', KIND(child))
         }
     })
 
-    console.error("PARSE NODE", ancestors, fields);
+    DEBUG("PARSE NODE", ancestors, fields);
     return {
         name: ancestors.join('_').toLowerCase(),
         label: ancestors.join(' '),
